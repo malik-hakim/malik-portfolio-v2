@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Instagram, ArrowDown } from "lucide-react";
+import profilePhoto from "@/assets/profile-photo.jpg";
 
 const Hero = () => {
   const socialLinks = [
@@ -181,10 +182,12 @@ const Hero = () => {
                   ease: "easeInOut",
                 }}
               >
-                {/* Placeholder avatar */}
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-cyber-cyan/20 to-cyber-emerald/20">
-                  <span className="font-heading text-8xl font-bold gradient-text">MH</span>
-                </div>
+                {/* Profile photo */}
+                <img 
+                  src={profilePhoto} 
+                  alt="M Malik Hakim AR" 
+                  className="w-full h-full object-cover"
+                />
               </motion.div>
 
               {/* Floating badges */}

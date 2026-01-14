@@ -6,6 +6,7 @@ import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import BackgroundEffects from "@/components/BackgroundEffects";
 
 const Index = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -24,12 +25,15 @@ const Index = () => {
   }, [showSplash]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Background effects - always visible */}
+      <BackgroundEffects />
+
       {/* Splash screen */}
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
 
       {/* Main content */}
-      <main>
+      <main className="relative z-10">
         <Hero />
         <About />
         <Skills />
