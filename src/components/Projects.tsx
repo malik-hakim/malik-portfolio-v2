@@ -20,18 +20,18 @@ export interface Project {
 
 export const projectsData: Project[] = [
   {
-    id: "ecommerce-platform",
-    title: "E-Commerce Platform",
-    description: "A full-featured online marketplace with real-time inventory management and secure payment processing.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
+    id: "smart-aquarium-iot-dashboard",
+    title: "Smart Aquarium IoT Dashboard",
+    description: "A smart aquarium monitoring system that tracks water quality, temperature, and fish activity.",
+    image: "/images/cover_project1.png",
     tags: ["Laravel", "React", "PostgreSQL"],
     github: "https://github.com",
     live: "https://example.com",
-    fullDescription: "Built a comprehensive e-commerce solution handling thousands of daily transactions. Features include real-time inventory tracking, multi-vendor support, advanced analytics dashboard, and seamless payment gateway integration with Stripe and PayPal.",
+    fullDescription: "Built a comprehensive smart aquarium monitoring system that tracks water quality, temperature, and fish activity. Features include real-time alerts, data visualization, and remote management.",
     gallery: [
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+      "/images/cover_project1.png",
+      "/images/project1a.png",
+      "/images/project1b.jpeg",
     ],
     techStack: ["Laravel 10", "React 18", "PostgreSQL", "Redis", "Stripe API", "Docker"],
     features: ["Real-time inventory", "Multi-vendor support", "Analytics dashboard", "Payment integration"],
@@ -40,14 +40,15 @@ export const projectsData: Project[] = [
     id: "ai-analytics-dashboard",
     title: "AI Analytics Dashboard",
     description: "Machine learning powered analytics platform providing predictive insights for business intelligence.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+    image: "/images/cover_project2.png",
     tags: ["Python", "TensorFlow", "React"],
-    github: "https://github.com",
+    github: "https://github.com/malik-hakim/mini_library_v2",
+    live: "https://malik-hakim.github.io/mini_library_v2/",
     fullDescription: "Developed an AI-driven analytics platform that processes millions of data points to deliver actionable business insights. The system uses machine learning models for predictive analytics, anomaly detection, and trend forecasting.",
     gallery: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+      "/images/cover_project2.png",
+      "/images/project2a.png",
+      "/images/project2b.png",
     ],
     techStack: ["Python", "TensorFlow", "FastAPI", "React", "PostgreSQL", "AWS"],
     features: ["Predictive analytics", "Anomaly detection", "Real-time processing", "Custom ML models"],
@@ -56,14 +57,13 @@ export const projectsData: Project[] = [
     id: "project-management-suite",
     title: "Project Management Suite",
     description: "Collaborative workspace tool with real-time updates, task management, and team communication features.",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=600&fit=crop",
+    image: "/images/cover_project3.png",
     tags: ["Laravel", "Vue.js", "MySQL"],
     live: "https://example.com",
     fullDescription: "Created a comprehensive project management platform that streamlines team collaboration. Features include Kanban boards, Gantt charts, time tracking, file sharing, and integrated video conferencing for remote teams.",
     gallery: [
-      "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=600&fit=crop",
+      "/images/cover_project3.png",
+      "/images/project3a.png",
     ],
     techStack: ["Laravel", "Vue.js 3", "MySQL", "WebSockets", "Redis", "Pusher"],
     features: ["Kanban boards", "Gantt charts", "Time tracking", "Video conferencing"],
@@ -72,15 +72,15 @@ export const projectsData: Project[] = [
     id: "healthcare-portal",
     title: "Healthcare Portal",
     description: "Secure patient management system with appointment scheduling, medical records, and telemedicine features.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
+    image: "/images/cover_project4.png",
     tags: ["Python", "Django", "React"],
     github: "https://github.com",
     live: "https://example.com",
     fullDescription: "Built a HIPAA-compliant healthcare platform serving thousands of patients. The system includes secure messaging, appointment scheduling, prescription management, and integrated telemedicine capabilities with end-to-end encryption.",
     gallery: [
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=800&h=600&fit=crop",
-      "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=600&fit=crop",
+      "/images/cover_project4.png",
+      "/images/project4a.png",
+      "/images/project4b.png",
     ],
     techStack: ["Python", "Django", "React", "PostgreSQL", "WebRTC", "AWS"],
     features: ["HIPAA compliant", "Telemedicine", "E-prescriptions", "Secure messaging"],
@@ -136,17 +136,14 @@ const Projects = () => {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               onClick={() => navigate(`/project/${project.id}`)}
-              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
-                <motion.img
+                <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-full h-full object-cover transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60" />
                 

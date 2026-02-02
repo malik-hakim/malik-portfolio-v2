@@ -4,9 +4,9 @@ import profilePhoto from "@/assets/profile-photo.jpg";
 
 const Hero = () => {
   const socialLinks = [
-    { icon: Github, href: "https://github.com", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Instagram, href: "https://instagram.com", label: "Instagram" },
+    { icon: Github, href: "https://github.com/malik-hakim", label: "GitHub" },
+    { icon: Linkedin, href: "https://linkedin.com/in/malik-hakim", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/likhkm_03/", label: "Instagram" },
   ];
 
   return (
@@ -202,7 +202,7 @@ const Hero = () => {
                   ease: "easeInOut",
                 }}
               >
-                <span className="text-sm font-heading font-semibold gradient-text">5+ Years</span>
+                <span className="text-sm font-heading font-semibold gradient-text">3+ Years</span>
               </motion.div>
 
               <motion.div
@@ -217,7 +217,7 @@ const Hero = () => {
                   delay: 0.5,
                 }}
               >
-                <span className="text-sm font-heading font-semibold gradient-text">50+ Projects</span>
+                <span className="text-sm font-heading font-semibold gradient-text">10+ Projects</span>
               </motion.div>
             </div>
           </motion.div>

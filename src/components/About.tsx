@@ -100,9 +100,9 @@ const About = () => {
               transition={{ delay: 0.5 }}
             >
               {[
-                { value: "5+", label: "Years Experience" },
-                { value: "50+", label: "Projects Completed" },
-                { value: "30+", label: "Happy Clients" },
+                { value: "3+", label: "Years Experience" },
+                { value: "10+", label: "Projects Completed" },
+                
               ].map((stat, index) => (
                 <div key={stat.label} className="text-center">
                   <span className="block text-3xl font-heading font-bold gradient-text">

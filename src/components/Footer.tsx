@@ -15,7 +15,7 @@ const Footer = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="font-heading text-2xl font-bold gradient-text">MH</span>
+            <span className="font-heading text-2xl font-bold gradient-text">Portofolio</span>
             <span className="text-muted-foreground font-body">|</span>
             <span className="text-sm text-muted-foreground font-body">M Malik Hakim AR</span>
           </motion.div>
@@ -27,9 +27,7 @@ const Footer = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            © {currentYear} Made with{" "}
-            <Heart className="w-4 h-4 text-cyber-cyan fill-cyber-cyan animate-pulse" />{" "}
-            All rights reserved.
+            © {currentYear} Made with{" Malik Hakim AR."}  All rights reserved.
           </motion.p>
 
           {/* Navigation */}

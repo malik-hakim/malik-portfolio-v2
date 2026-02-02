@@ -67,12 +67,29 @@ const DatabaseIcon = () => (
   </svg>
 );
 
+// Flutter Logo SVG
+const FlutterIcon = () => (
+  <svg viewBox="0 0 256 317" className="w-8 h-8">
+    <defs>
+      <linearGradient id="flutter-gradient" x1="3.952%" y1="26.993%" x2="75.897%" y2="52.919%">
+        <stop offset="0%" stopColor="#47C5FB"/>
+        <stop offset="100%" stopColor="#47C5FB" stopOpacity="0"/>
+      </linearGradient>
+    </defs>
+    <polygon fill="#47C5FB" points="157.666 0.001 0 157.667 48.8 206.467 255.267 0.001"/>
+    <polygon fill="#47C5FB" points="156.567 145.396 72.149 229.815 121.132 278.798 205.517 194.446 255.267 145.396"/>
+    <polygon fill="#00569E" points="121.133 279.048 170.067 229.816 205.516 194.447 156.567 145.396 72.149 229.815"/>
+    <polygon fill="url(#flutter-gradient)" fillOpacity="0.8" points="121.133 279.048 170.067 229.816 205.516 194.447 156.567 145.396 72.149 229.815"/>
+  </svg>
+);
+
 const skills: Skill[] = [
   { name: "Laravel", percentage: 93, color: "from-red-500 to-orange-500", icon: <LaravelIcon /> },
   { name: "Python", percentage: 87, color: "from-yellow-500 to-blue-500", icon: <PythonIcon /> },
   { name: "HTML/CSS", percentage: 95, color: "from-orange-500 to-pink-500", icon: <HtmlCssIcon /> },
   { name: "SQL Databases", percentage: 88, color: "from-blue-500 to-cyan-500", icon: <DatabaseIcon /> },
   { name: "React", percentage: 60, color: "from-cyan-400 to-blue-500", icon: <ReactIcon /> },
+  { name: "Flutter", percentage: 50, color: "from-blue-400 to-cyan-400", icon: <FlutterIcon /> },
 ];
 
 const AnimatedCounter = ({ target, isInView }: { target: number; isInView: boolean }) => {
@@ -239,7 +256,7 @@ const Skills = () => {
         </motion.div>
 
         {/* Skills display - Circular gauges for desktop */}
-        <div className="hidden md:grid md:grid-cols-5 gap-6 mb-16">
+        <div className="hidden md:grid md:grid-cols-6 gap-6 mb-16">
           {skills.map((skill, index) => (
             <CircularProgress
               key={skill.name}
@@ -273,7 +290,7 @@ const Skills = () => {
             Also experienced with:
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {["Git", "Docker", "REST APIs", "PostgreSQL", "MySQL", "Tailwind CSS", "TypeScript", "Node.js"].map((tech, index) => (
+            {["REST APIs", "MySQL", "Tailwind CSS","Arduino IDE", "TypeScript", "Figma"].map((tech, index) => (
               <motion.span
                 key={tech}
                 className="px-4 py-2 rounded-full glass-card text-sm font-body text-foreground hover:border-primary/50 transition-colors cursor-default"
