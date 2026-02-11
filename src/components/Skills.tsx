@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 
 interface Skill {
   name: string;
-  percentage: number;
   color: string;
   icon: React.ReactNode;
 }
@@ -34,18 +33,6 @@ const PythonIcon = () => (
   </svg>
 );
 
-// React Logo SVG
-const ReactIcon = () => (
-  <svg viewBox="-11.5 -10.232 23 20.463" className="w-8 h-8">
-    <circle r="2.05" fill="#61DAFB"/>
-    <g stroke="#61DAFB" fill="none">
-      <ellipse rx="11" ry="4.2"/>
-      <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-      <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
-    </g>
-  </svg>
-);
-
 // HTML/CSS Logo SVG
 const HtmlCssIcon = () => (
   <svg viewBox="0 0 512 512" className="w-8 h-8">
@@ -67,145 +54,27 @@ const DatabaseIcon = () => (
   </svg>
 );
 
-// Flutter Logo SVG
-const FlutterIcon = () => (
-  <svg viewBox="0 0 256 317" className="w-8 h-8">
-    <defs>
-      <linearGradient id="flutter-gradient" x1="3.952%" y1="26.993%" x2="75.897%" y2="52.919%">
-        <stop offset="0%" stopColor="#47C5FB"/>
-        <stop offset="100%" stopColor="#47C5FB" stopOpacity="0"/>
-      </linearGradient>
-    </defs>
-    <polygon fill="#47C5FB" points="157.666 0.001 0 157.667 48.8 206.467 255.267 0.001"/>
-    <polygon fill="#47C5FB" points="156.567 145.396 72.149 229.815 121.132 278.798 205.517 194.446 255.267 145.396"/>
-    <polygon fill="#00569E" points="121.133 279.048 170.067 229.816 205.516 194.447 156.567 145.396 72.149 229.815"/>
-    <polygon fill="url(#flutter-gradient)" fillOpacity="0.8" points="121.133 279.048 170.067 229.816 205.516 194.447 156.567 145.396 72.149 229.815"/>
-  </svg>
-);
-
 const skills: Skill[] = [
-  { name: "Laravel", percentage: 93, color: "from-red-500 to-orange-500", icon: <LaravelIcon /> },
-  { name: "Python", percentage: 87, color: "from-yellow-500 to-blue-500", icon: <PythonIcon /> },
-  { name: "HTML/CSS", percentage: 95, color: "from-orange-500 to-pink-500", icon: <HtmlCssIcon /> },
-  { name: "SQL Databases", percentage: 88, color: "from-blue-500 to-cyan-500", icon: <DatabaseIcon /> },
-  { name: "React", percentage: 60, color: "from-cyan-400 to-blue-500", icon: <ReactIcon /> },
-  { name: "Flutter", percentage: 50, color: "from-blue-400 to-cyan-400", icon: <FlutterIcon /> },
+  { name: "Laravel", color: "from-red-500 to-orange-500", icon: <LaravelIcon /> },
+  { name: "Python", color: "from-yellow-500 to-blue-500", icon: <PythonIcon /> },
+  { name: "HTML/CSS", color: "from-orange-500 to-pink-500", icon: <HtmlCssIcon /> },
+  { name: "SQL Databases", color: "from-blue-500 to-cyan-500", icon: <DatabaseIcon /> },
 ];
 
-const AnimatedCounter = ({ target, isInView }: { target: number; isInView: boolean }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    
-    let start = 0;
-    const duration = 2000;
-    const increment = target / (duration / 16);
-    
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [target, isInView]);
-
-  return <span>{count}%</span>;
-};
-
-const CircularProgress = ({ skill, index, isInView }: { skill: Skill; index: number; isInView: boolean }) => {
-  const circumference = 2 * Math.PI * 45;
-  const strokeDashoffset = circumference - (skill.percentage / 100) * circumference;
-
+const SkillCard = ({ skill, index, isInView }: { skill: Skill; index: number; isInView: boolean }) => {
   return (
     <motion.div
-      className="glass-card-hover p-6 flex flex-col items-center gap-4"
+      className="glass-card-hover p-8 flex flex-col items-center gap-4"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ scale: 1.05 }}
     >
-      <div className="relative w-28 h-28">
-        {/* Background circle */}
-        <svg className="w-full h-full transform -rotate-90">
-          <circle
-            cx="56"
-            cy="56"
-            r="45"
-            stroke="hsl(var(--muted))"
-            strokeWidth="8"
-            fill="none"
-          />
-          {/* Animated progress circle */}
-          <motion.circle
-            cx="56"
-            cy="56"
-            r="45"
-            stroke="url(#gradient)"
-            strokeWidth="8"
-            fill="none"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            initial={{ strokeDashoffset: circumference }}
-            animate={isInView ? { strokeDashoffset } : { strokeDashoffset: circumference }}
-            transition={{ duration: 2, delay: index * 0.1, ease: "easeOut" }}
-            style={{
-              filter: "drop-shadow(0 0 8px hsl(var(--cyber-cyan) / 0.5))",
-            }}
-          />
-          <defs>
-            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="hsl(var(--cyber-cyan))" />
-              <stop offset="100%" stopColor="hsl(var(--cyber-emerald))" />
-            </linearGradient>
-          </defs>
-        </svg>
-        
-        {/* Center content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="mb-1">{skill.icon}</div>
-          <span className="text-xl font-heading font-bold gradient-text">
-            <AnimatedCounter target={skill.percentage} isInView={isInView} />
-          </span>
-        </div>
+      <div className="w-20 h-20 flex items-center justify-center">
+        {skill.icon}
       </div>
       
-      <h3 className="font-heading font-semibold text-foreground">{skill.name}</h3>
-    </motion.div>
-  );
-};
-
-const SkillBar = ({ skill, index, isInView }: { skill: Skill; index: number; isInView: boolean }) => {
-  return (
-    <motion.div
-      className="space-y-3"
-      initial={{ opacity: 0, x: -30 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-    >
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="w-6 h-6">{skill.icon}</div>
-          <span className="font-heading font-semibold text-foreground">{skill.name}</span>
-        </div>
-        <span className="font-heading font-bold gradient-text">
-          <AnimatedCounter target={skill.percentage} isInView={isInView} />
-        </span>
-      </div>
-      
-      <div className="skill-track">
-        <motion.div
-          className="skill-fill"
-          initial={{ width: 0 }}
-          animate={isInView ? { width: `${skill.percentage}%` } : { width: 0 }}
-          transition={{ duration: 1.5, delay: 0.3 + index * 0.1, ease: "easeOut" }}
-        />
-      </div>
+      <h3 className="font-heading font-semibold text-lg text-foreground text-center">{skill.name}</h3>
     </motion.div>
   );
 };
@@ -255,22 +124,10 @@ const Skills = () => {
           </p>
         </motion.div>
 
-        {/* Skills display - Circular gauges for desktop */}
-        <div className="hidden md:grid md:grid-cols-6 gap-6 mb-16">
+        {/* Skills display - Grid layout */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-5xl mx-auto">
           {skills.map((skill, index) => (
-            <CircularProgress
-              key={skill.name}
-              skill={skill}
-              index={index}
-              isInView={isInView}
-            />
-          ))}
-        </div>
-
-        {/* Skills display - Bar chart for mobile */}
-        <div className="md:hidden glass-card p-6 space-y-6">
-          {skills.map((skill, index) => (
-            <SkillBar
+            <SkillCard
               key={skill.name}
               skill={skill}
               index={index}
@@ -290,7 +147,7 @@ const Skills = () => {
             Also experienced with:
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {["REST APIs", "MySQL", "Tailwind CSS","Arduino IDE", "TypeScript", "Figma"].map((tech, index) => (
+            {["REST APIs", "Tailwind CSS", "Internet of Things", "TypeScript", "Figma"].map((tech, index) => (
               <motion.span
                 key={tech}
                 className="px-4 py-2 rounded-full glass-card text-sm font-body text-foreground hover:border-primary/50 transition-colors cursor-default"
