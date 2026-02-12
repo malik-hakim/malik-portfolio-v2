@@ -22,68 +22,67 @@ export const projectsData: Project[] = [
   {
     id: "smart-aquarium-iot-dashboard",
     title: "Smart Aquarium IoT Dashboard",
-    description: "A smart aquarium monitoring system that tracks water quality, temperature, and fish activity.",
-    image: "/images/cover_project1.png",
-    tags: ["Laravel", "React", "PostgreSQL"],
-    github: "https://github.com",
-    live: "https://example.com",
-    fullDescription: "Built a comprehensive smart aquarium monitoring system that tracks water quality, temperature, and fish activity. Features include real-time alerts, data visualization, and remote management.",
+    description: "An IoT-based smart aquarium monitoring system designed specifically for guppy fish farming.",
+    image: "/images/web1.png",
+    tags: ["Python Flask", " ESP32"," REST API"],
+    github: "https://github.com/malik-hakim/dasboard-monitoring-aquarium-berbasis-iot",
+    fullDescription: "This system integrates multiple sensors (pH sensor and DS18B20 temperature sensor) with ESP32 microcontroller to provide real-time water quality monitoring through a web dashboard. The system features automated pH correction using a peristaltic pump and scheduled automatic feeding with a servo motor. Built with Flask backend and responsive HTML/CSS/JavaScript frontend, it enables aquarists to maintain optimal water conditions remotely while ensuring consistent fish feeding schedules. All data is logged and visualized with interactive charts for historical analysis.",
     gallery: [
       "/images/cover_project1.png",
       "/images/project1a.png",
       "/images/project1b.jpeg",
     ],
-    techStack: ["Laravel 10", "React 18", "PostgreSQL", "Redis", "Stripe API", "Docker"],
-    features: ["Real-time inventory", "Multi-vendor support", "Analytics dashboard", "Payment integration"],
+    techStack: ["Python Flask", " ESP32", "JavaScript", "HTML/CSS", "JSON Database", " REST API"],
+    features: ["Real-time Water Monitoring", "Auto pH Treatment System", "Scheduled Auto Feeding", "Interactive Web Dashboard"],
   },
   {
-    id: "ai-analytics-dashboard",
-    title: "AI Analytics Dashboard",
-    description: "Machine learning powered analytics platform providing predictive insights for business intelligence.",
-    image: "/images/cover_project2.png",
+    id: "mini-library-smart-city",
+    title: "Mini Library Smart City",
+    description: "An interactive educational website about Smart City concepts featuring smooth scrolling animations, comprehensive information about smart city pillars, and real-world implementation examples in Wonosobo with audio-guided exploration.",
+    image: "/images/web2.png",
     tags: ["Python", "TensorFlow", "React"],
     github: "https://github.com/malik-hakim/mini_library_v2",
     live: "https://malik-hakim.github.io/mini_library_v2/",
-    fullDescription: "Developed an AI-driven analytics platform that processes millions of data points to deliver actionable business insights. The system uses machine learning models for predictive analytics, anomaly detection, and trend forecasting.",
+    fullDescription: "A comprehensive interactive web platform designed to educate visitors about Smart City concepts through engaging visual experiences and real-world case studies. The website features advanced GSAP-powered scroll animations that create an immersive journey through different aspects of smart cities. It showcases the six pillars of Smart City (Governance, Environment, Living, Branding, Economy, and Society) with detailed information and interactive elements.",
     gallery: [
       "/images/cover_project2.png",
       "/images/project2a.png",
       "/images/project2b.png",
     ],
-    techStack: ["Python", "TensorFlow", "FastAPI", "React", "PostgreSQL", "AWS"],
-    features: ["Predictive analytics", "Anomaly detection", "Real-time processing", "Custom ML models"],
+    techStack: ["HTML5", "CSS3", "JavaScript", "GSAP 3.12", "ScrollTrigger", "Font Awesome 6.6", "HTML5 Audio API"],
+    features: ["GSAP Scroll Animations", " 6 Smart City Pillars Showcase", "11 Real Implementation Case Studies", " Audio-Guided Exploration System"],
   },
   {
-    id: "project-management-suite",
-    title: "Project Management Suite",
-    description: "Collaborative workspace tool with real-time updates, task management, and team communication features.",
-    image: "/images/cover_project3.png",
+    id: "drowsiness-vehicle-detection-system",
+    title: "Drowsiness Vehicle Detection System",
+    description: "A real-time dual camera monitoring system that combines drowsiness detection using facial landmarks and vehicle detection using YOLOv8, with Flask web interface for remote monitoring and control.",
+    image: "/images/web3.png",
     tags: ["Laravel", "Vue.js", "MySQL"],
     live: "https://example.com",
-    fullDescription: "Created a comprehensive project management platform that streamlines team collaboration. Features include Kanban boards, Gantt charts, time tracking, file sharing, and integrated video conferencing for remote teams.",
+    fullDescription: "An advanced computer vision application that provides simultaneous monitoring through two camera sources for different detection purposes. The first camera uses MediaPipe Face Mesh to detect driver drowsiness by calculating Eye Aspect Ratio (EAR), triggering audio alarms when eyes remain closed beyond a configurable threshold. The second camera employs YOLOv8 object detection to identify and count vehicles (cars, motorcycles, buses, trucks) in real-time from IP camera streams.The system features a responsive Flask web dashboard with dark/light theme support, live video streaming using MJPEG, threaded camera capture for optimal performance, and comprehensive controls including alarm management, camera restart functionality, and dynamic IP camera URL configuration. The interface includes real-time statistics tracking system uptime, detection events, active cameras, and overall health status. Both detection streams support fullscreen viewing and provide visual overlays with detection confidence scores, bounding boxes, and classification labels.",
     gallery: [
       "/images/cover_project3.png",
       "/images/project3a.png",
     ],
-    techStack: ["Laravel", "Vue.js 3", "MySQL", "WebSockets", "Redis", "Pusher"],
-    features: ["Kanban boards", "Gantt charts", "Time tracking", "Video conferencing"],
+    techStack: ["Python Flask", "OpenCV", "MediaPipe", "YOLOv8 (Ultralytics)", "Pygame", "HTML5/CSS3/JavaScript", "Threading", "MJPEG Streaming"],
+    features: ["MediaPipe Face Mesh ML Model", " YOLOv8 Deep Learning Detection", "Real-time Dual Camera Streaming", "Automated Audio Alarm System"],
   },
   {
-    id: "healthcare-portal",
-    title: "Healthcare Portal",
-    description: "Secure patient management system with appointment scheduling, medical records, and telemedicine features.",
-    image: "/images/cover_project4.png",
+    id: "Fitness-Tracker-App",
+    title: "Fitness Tracker App",
+    description: "A comprehensive fitness tracking application with real-time health monitoring and personalized workout plans.",
+    image: "/images/web4.png",
     tags: ["Python", "Django", "React"],
     github: "https://github.com",
     live: "https://example.com",
-    fullDescription: "Built a HIPAA-compliant healthcare platform serving thousands of patients. The system includes secure messaging, appointment scheduling, prescription management, and integrated telemedicine capabilities with end-to-end encryption.",
+    fullDescription: "A full-stack web application designed to help users achieve their fitness goals through systematic tracking and data-driven recommendations. The system calculates Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation and Total Daily Energy Expenditure (TDEE) based on activity levels. Users can set personalized goals (weight loss, gain, or maintenance) and receive tailored daily calorie targets.",
     gallery: [
-      "/images/cover_project4.png",
       "/images/project4a.png",
       "/images/project4b.png",
+      "/images/project4c.png",
     ],
-    techStack: ["Python", "Django", "React", "PostgreSQL", "WebRTC", "AWS"],
-    features: ["HIPAA compliant", "Telemedicine", "E-prescriptions", "Secure messaging"],
+    techStack: ["Python Flask", "MySQL", "bcrypt", "HTML5/CSS3", "JavaScript", "Session Management", "Mifflin-St Jeor Formula", "MET Calculation"],
+    features: ["BMR & TDEE Calculator", "Personalized Calorie Goals", "Weekly Progress Tracking", "MET-Based Exercise Logging"],
   },
 ];
 
@@ -138,12 +137,12 @@ const Projects = () => {
               onClick={() => navigate(`/project/${project.id}`)}
               whileTap={{ scale: 0.98 }}
             >
-              {/* Image */}
-              <div className="relative h-56 overflow-hidden">
+              {/* Image - CHANGED: Removed fixed height and added object-contain */}
+              <div className="relative overflow-hidden bg-background/50">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-300"
+                  className="w-full h-auto object-contain transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-60" />
                 
