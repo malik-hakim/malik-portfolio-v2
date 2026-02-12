@@ -111,15 +111,15 @@ const ProjectDetail = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            {/* Main image */}
+            {/* Main image - CHANGED: Removed aspect-video and object-cover */}
             <motion.div
-              className="relative rounded-2xl overflow-hidden glass-card aspect-video"
+              className="relative rounded-2xl overflow-hidden glass-card"
               layoutId={`project-${project.id}`}
             >
               <motion.img
                 src={project.gallery[selectedImage]}
                 alt={`${project.title} screenshot ${selectedImage + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-auto"
                 key={selectedImage}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
