@@ -24,7 +24,7 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/malik-hakim", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/malik-hakim03/", label: "LinkedIn" },
     { icon: Instagram, href: "https://www.instagram.com/likhkm_03/", label: "Instagram" },
   ];
 

@@ -5,7 +5,7 @@ import profilePhoto from "@/assets/profile-photo.jpg";
 const Hero = () => {
   const socialLinks = [
     { icon: Github, href: "https://github.com/malik-hakim", label: "GitHub" },
-    { icon: Linkedin, href: "https://linkedin.com/in/malik-hakim", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/malik-hakim03/", label: "LinkedIn" },
     { icon: Instagram, href: "https://www.instagram.com/likhkm_03/", label: "Instagram" },
   ];
 
