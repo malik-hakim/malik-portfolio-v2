@@ -1,82 +1,12 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Award, ExternalLink, Calendar, Building2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Award, ExternalLink, Building2 } from "lucide-react";
+import { fetchCertificates, type ApiCertificate } from "@/api/certificates";
+import { getImageUrl } from "@/api/client";
 
-interface Certificate {
-  id: number;
-  title: string;
-  issuer: string;
-  description: string;
-  credentialId?: string;
-  credentialUrl?: string;
-  image?: string;
-  skills: string[];
-}
-
-// Sample certificates data - Replace with your actual certificates
-const certificates: Certificate[] = [
-  {
-    id: 1,
-    title: "Dasar Pemograman Web",
-    issuer: "Dicoding",
-    description: "develop website development skills to a more advanced level",
-    credentialId: "1OP8JG37VPQK",
-    credentialUrl: "https://www.dicoding.com/certificates/1OP8JG37VPQK",
-    image: "/certificates/sertif1.png", // Tambahkan path gambar Anda
-    skills: ["html", "css"]
-  },
-  {
-    id: 2,
-    title: "Dasar AI",
-    issuer: "Dicoding",
-    description: "examine various basic concepts in AI and their applications.",
-    credentialId: "53XEKVGQVXRN",
-    credentialUrl: "https://www.dicoding.com/certificates/53XEKVGQVXRN",
-    image: "/certificates/sertif2.png",
-    skills: ["Python", "Data Analysis", "Machine Learning", "Deep Learning"]
-  },
-  {
-    id: 3,
-    title: "Google Cloud Fundamentals",
-    issuer: "Dicoding",
-    description: "Explore the basic concepts of Google Cloud and its core services.",
-    credentialId: "MRZMW54VRPYQ",
-    credentialUrl: "https://www.dicoding.com/certificates/MRZMW54VRPYQ",
-    image: "/certificates/sertif3.png",
-    skills: ["Cloud Computing", "Storage & Database", "Cost & Billing"]
-  },
-  {
-    id: 4,
-    title: "Introduction to Financial Literacy",
-    issuer: "Dicoding",
-    description: "building a strong understanding of the basic principles of financial literacy, applying them in everyday financial decision-making, and designing long-term financial strategies.",
-    credentialId: "ERZR2R28QPYV",
-    credentialUrl: "https://www.dicoding.com/certificates/ERZR2R28QPYV",
-    image: "/certificates/sertif4.png",
-    skills: ["Financial Literacy", "Personal Financial Management", "Financial Planning"]
-  },
-  {
-    id: 5,
-    title: "Mastering Basic Excel Formulas",
-    issuer: "Jobstreet",
-    description: "Foundational understanding of Excel formulas and functions.",
-    credentialId: "JOBSTREET-EXCEL-2026",
-    image: "/certificates/sertif5.png",
-    skills: ["Excel", "Data Analysis", "Spreadsheet Functions"]
-  },
-  {
-    id: 6,
-    title: "Basic Data Science Training",
-    issuer: "Jobstreet",
-    description: "Foundational understanding of data science concepts and techniques.",
-    credentialId: "JOBSTREET-DATASCIENCE-2026",
-    image: "/certificates/sertif6.png",
-    skills: ["Data Science", "Python", "Data Visualization", "Statistical Analysis"]
-  }
-];
-
-const CertificateCard = ({ certificate, index, isInView }: { certificate: Certificate; index: number; isInView: boolean }) => {
+const CertificateCard = ({ certificate, index, isInView }: { certificate: ApiCertificate; index: number; isInView: boolean }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
 
@@ -93,7 +23,7 @@ const CertificateCard = ({ certificate, index, isInView }: { certificate: Certif
       <div className="relative mb-4 h-48 rounded-lg overflow-hidden bg-gradient-to-br from-cyber-cyan/10 to-cyber-emerald/10">
         {certificate.image && !imageError ? (
           <motion.img
-            src={certificate.image}
+            src={getImageUrl(certificate.image)}
             alt={certificate.title}
             className="w-full h-full object-cover"
             animate={{ scale: isHovered ? 1.05 : 1 }}
@@ -150,14 +80,14 @@ const CertificateCard = ({ certificate, index, isInView }: { certificate: Certif
         </div>
 
         {/* Credential Info */}
-        {certificate.credentialId && (
+        {certificate.credential_id && (
           <div className="pt-4 border-t border-border">
             <p className="text-xs text-muted-foreground font-body mb-2">
-              Credential ID: <span className="text-foreground font-mono">{certificate.credentialId}</span>
+              Credential ID: <span className="text-foreground font-mono">{certificate.credential_id}</span>
             </p>
-            {certificate.credentialUrl && (
+            {certificate.credential_url && (
               <motion.a
-                href={certificate.credentialUrl}
+                href={certificate.credential_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-sm font-body text-cyber-cyan hover:text-cyber-emerald transition-colors"
@@ -177,6 +107,12 @@ const CertificateCard = ({ certificate, index, isInView }: { certificate: Certif
 const Certifications = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const { data: certificates = [], isLoading } = useQuery({
+    queryKey: ["certificates"],
+    queryFn: fetchCertificates,
+    staleTime: 5 * 60 * 1000,
+  });
 
   return (
     <section id="certifications" className="relative py-32 overflow-hidden" ref={ref}>
@@ -225,17 +161,35 @@ const Certifications = () => {
           </p>
         </motion.div>
 
+        {/* Loading skeleton */}
+        {isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="glass-card overflow-hidden animate-pulse">
+                <div className="h-48 bg-muted m-6 rounded-lg" />
+                <div className="px-6 pb-6 space-y-3">
+                  <div className="h-6 bg-muted rounded w-3/4" />
+                  <div className="h-4 bg-muted/50 rounded w-1/2" />
+                  <div className="h-12 bg-muted/30 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* Certificates Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {certificates.map((certificate, index) => (
-            <CertificateCard
-              key={certificate.id}
-              certificate={certificate}
-              index={index}
-              isInView={isInView}
-            />
-          ))}
-        </div>
+        {!isLoading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {certificates.map((certificate, index) => (
+              <CertificateCard
+                key={certificate.id}
+                certificate={certificate}
+                index={index}
+                isInView={isInView}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Stats Section */}
         <motion.div

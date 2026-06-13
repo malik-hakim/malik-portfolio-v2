@@ -1,17 +1,46 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Github, ExternalLink, Check } from "lucide-react";
-import { projectsData } from "@/components/Projects";
+import { ArrowLeft, Github, ExternalLink, Check, Play } from "lucide-react";
+import { fetchProjectBySlug } from "@/api/projects";
 import { useState } from "react";
+import { getImageUrl } from "@/api/client";
+
+const isValidLink = (url?: string | null) => {
+  return url && url.trim() !== "" && url !== "null" && url !== "undefined";
+};
 
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const project = projectsData.find((p) => p.id === id);
+  const { data: project, isLoading, error } = useQuery({
+    queryKey: ["project", id],
+    queryFn: () => fetchProjectBySlug(id!),
+    enabled: !!id,
+    staleTime: 5 * 60 * 1000,
+  });
 
-  if (!project) {
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="fixed inset-0 cyber-grid opacity-10 pointer-events-none" />
+        <div className="container px-6 py-16 space-y-8">
+          <div className="h-12 bg-muted rounded-xl w-48 animate-pulse" />
+          <div className="h-8 bg-muted rounded-lg w-3/4 animate-pulse" />
+          <div className="aspect-video bg-muted rounded-2xl animate-pulse" />
+          <div className="space-y-3">
+            <div className="h-4 bg-muted/50 rounded w-full animate-pulse" />
+            <div className="h-4 bg-muted/50 rounded w-5/6 animate-pulse" />
+            <div className="h-4 bg-muted/50 rounded w-4/6 animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !project) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
@@ -23,6 +52,8 @@ const ProjectDetail = () => {
       </div>
     );
   }
+
+  const gallery = project.gallery.map(g => g.image_path);
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,9 +83,20 @@ const ProjectDetail = () => {
           </button>
 
           <div className="flex gap-3">
-            {project.github && (
+            {isValidLink(project.demo_url) && (
               <a
-                href={project.github}
+                href={project.demo_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon"
+                title="Watch Demo"
+              >
+                <Play className="w-5 h-5 text-cyber-emerald" />
+              </a>
+            )}
+            {isValidLink(project.github_url) && (
+              <a
+                href={project.github_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon"
@@ -62,9 +104,9 @@ const ProjectDetail = () => {
                 <Github className="w-5 h-5" />
               </a>
             )}
-            {project.live && (
+            {isValidLink(project.live_url) && (
               <a
-                href={project.live}
+                href={project.live_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon"
@@ -105,51 +147,55 @@ const ProjectDetail = () => {
           </div>
 
           {/* Gallery */}
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            {/* Main image - CHANGED: Removed aspect-video and object-cover */}
+          {gallery.length > 0 && (
             <motion.div
-              className="relative rounded-2xl overflow-hidden glass-card"
-              layoutId={`project-${project.id}`}
+              className="space-y-4"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
-              <motion.img
-                src={project.gallery[selectedImage]}
-                alt={`${project.title} screenshot ${selectedImage + 1}`}
-                className="w-full h-auto"
-                key={selectedImage}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-            </motion.div>
+              {/* Main image */}
+              <motion.div
+                className="relative rounded-2xl overflow-hidden glass-card"
+                layoutId={`project-${project.slug}`}
+              >
+                <motion.img
+                  src={getImageUrl(gallery[selectedImage])}
+                  alt={`${project.title} screenshot ${selectedImage + 1}`}
+                  className="w-full h-auto"
+                  key={selectedImage}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.div>
 
-            {/* Thumbnails */}
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {project.gallery.map((image, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => setSelectedImage(index)}
-                  className={`relative flex-shrink-0 w-32 h-20 rounded-lg overflow-hidden transition-all ${
-                    selectedImage === index
-                      ? "ring-2 ring-cyber-cyan glow-cyan"
-                      : "opacity-60 hover:opacity-100"
-                  }`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <img
-                    src={image}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.button>
-              ))}
-            </div>
-          </motion.div>
+              {/* Thumbnails */}
+              {gallery.length > 1 && (
+                <div className="flex gap-4 overflow-x-auto pb-2">
+                  {gallery.map((image, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={`relative flex-shrink-0 w-32 h-20 rounded-lg overflow-hidden transition-all ${
+                        selectedImage === index
+                          ? "ring-2 ring-cyber-cyan glow-cyan"
+                          : "opacity-60 hover:opacity-100"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <img
+                        src={getImageUrl(image)}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          )}
         </motion.div>
       </section>
 
@@ -166,30 +212,32 @@ const ProjectDetail = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-heading font-bold">About This Project</h2>
               <p className="text-muted-foreground font-body leading-relaxed text-lg">
-                {project.fullDescription}
+                {project.full_description}
               </p>
             </div>
 
             {/* Features */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-heading font-semibold">Key Features</h3>
-              <ul className="grid sm:grid-cols-2 gap-3">
-                {project.features.map((feature, index) => (
-                  <motion.li
-                    key={feature}
-                    className="flex items-center gap-3 glass-card p-4 rounded-xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                  >
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-cyber-emerald/20 border border-cyber-emerald/30">
-                      <Check className="w-4 h-4 text-cyber-emerald" />
-                    </div>
-                    <span className="font-body text-foreground">{feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
+            {project.features.length > 0 && (
+              <div className="space-y-4">
+                <h3 className="text-xl font-heading font-semibold">Key Features</h3>
+                <ul className="grid sm:grid-cols-2 gap-3">
+                  {project.features.map((feature, index) => (
+                    <motion.li
+                      key={feature}
+                      className="flex items-center gap-3 glass-card p-4 rounded-xl"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 + index * 0.1 }}
+                    >
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-cyber-emerald/20 border border-cyber-emerald/30">
+                        <Check className="w-4 h-4 text-cyber-emerald" />
+                      </div>
+                      <span className="font-body text-foreground">{feature}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
 
           {/* Tech stack sidebar */}
@@ -218,9 +266,20 @@ const ProjectDetail = () => {
 
               {/* CTA */}
               <div className="pt-4 space-y-3">
-                {project.live && (
+                {isValidLink(project.demo_url) && (
                   <a
-                    href={project.live}
+                    href={project.demo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 font-heading font-semibold rounded-lg border border-cyber-emerald/30 text-cyber-emerald hover:bg-cyber-emerald/10 transition-all duration-300"
+                  >
+                    <Play className="w-4 h-4" />
+                    Watch Demo
+                  </a>
+                )}
+                {isValidLink(project.live_url) && (
+                  <a
+                    href={project.live_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cyber-button w-full flex items-center justify-center gap-2"
@@ -229,9 +288,9 @@ const ProjectDetail = () => {
                     View Live Demo
                   </a>
                 )}
-                {project.github && (
+                {isValidLink(project.github_url) && (
                   <a
-                    href={project.github}
+                    href={project.github_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 px-6 py-3 font-heading font-semibold rounded-lg border border-border hover:border-primary transition-all duration-300 hover:bg-primary/10"
